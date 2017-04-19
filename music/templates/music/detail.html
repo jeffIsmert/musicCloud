@@ -34,7 +34,7 @@
                                 <button class="mute btn btn-danger btn-xs" role="button">
                                         <span class="glyphicon glyphicon-volume-off" style="display:inline-block"></span>
                                 </button>
-                                <input class="volume" type="text" value=" .5" data-slider="true">
+                                <input class="volume" type="slider" value=" .5" data-slider="true">
 							<!--<button class="jp-volume-max" role="button" tabindex="0">max volume</button>-->
                             </span>
                             <div class="btnControl">
@@ -89,9 +89,10 @@
                                 <td>{{ song.song_title }}</td>
                                 <td>
 					
-                                    <audio id="music" preload loop="false">
+                                    <audio controls preload loop="false">
   					<source src="{{ song.audio_file.url }}">
                                     </audio>
+				<!-- custom audio player
                                     <div id="audioplayer">
 					<button id="pButton" class="btn btn-warning btn-xs">
                                             <span class="glyphicon glyphicon-play"></span>
@@ -100,12 +101,7 @@
                                             <div id="playhead"></div>
   					</div>
                                     </div>
-                                   <!--
-                                    <a target="_blank" href="{{ song.audio_file.url }}">
-                                        <button type="button" id="pButton" class="btn btn-warning btn-xs" >
-                                            <span class="glyphicon glyphicon-play"></span>
-                                        </button>
-                                    </a>
+                                  
                                     -->
                                 </td>
                                 <td>
