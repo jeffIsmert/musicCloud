@@ -1,0 +1,134 @@
+{% extends 'music/guide.html' %}
+{% block title %}napstaBlook{% endblock %}
+{% block albums_active %}active{% endblock %}
+
+{% block content %}
+<div class="container-fluid songs-container">
+
+    
+
+        <!-- Album Info -->
+        <div class="col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <a href="{% url 'music:detail' album.id %}">
+                        {% if album.album_logo %}
+                            <img src="{{ album.album_logo.url }}" class="img-responsive">
+                        {% else %}
+                            <h3>No image to display</h3>
+                        {% endif %}
+                    </a>
+                    <h2>{{ album.album_title }}: <small>{{ album.genre }}</small></h2>
+                    <h3>{{ album.artist }}</h3>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Song Info -->
+        <div class="col-sm-8 col-md-9">
+            <div class="col-sm-12" style="margin-bottom: 20px;">
+                <h1>NapstaBlook's Albums</h1>
+                
+                    <div >
+                            <span class="volumeControl" style="display:inline-block">
+                                <button class="mute btn btn-danger btn-xs" role="button">
+                                        <span class="glyphicon glyphicon-volume-off" style="display:inline-block"></span>
+                                </button>
+                                <input class="volume" type="text" value=" .5" data-slider="true">
+							<!--<button class="jp-volume-max" role="button" tabindex="0">max volume</button>-->
+                            </span>
+                            <div class="btnControl">
+				
+					<button type="button" class="btn btn-basic btn-xs" >
+                                                <span class="glyphicon glyphicon-play"></span>
+                                        </button>		
+														
+					<button class="stop btn btn-basic btn-xs" role="button" tabindex="0">
+                                                <span class="glyphicon glyphicon-stop"></span>
+                                        </button> 
+                                <span id="loop">
+                                        <button class="btn btn-info btn-xs" role="button">
+                                                <span class="glyphicon glyphicon-repeat"></span>&nbsp; Repeat
+                                        </button>
+                                </span>
+                            </div>
+			
+			
+                    </div><br>
+                    <div class="noSong">
+                        <span><strong>No Songs Found</strong></span>  Upload songs by clicking on the Add New Songs button below if problems still persist you may need to update your <a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>.
+                    </div><br>
+           
+            <ul class="nav nav-pills" style="margin-bottom: 20px;">
+                <li role="presentation" class="active"><a href="{% url 'music:detail' album.id %}">View All</a></li>
+                <li role="presentation"><a href="{% url 'music:add-song' album.id %}">Add New Song</a></li>
+            </ul>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+
+                    <h3>All Songs</h3>
+
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Audio File</th>
+                            <th>Favorite</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            
+                        {% for song in album.song_set.all %}
+                            <tr>
+                                <td>{{ song.song_title }}</td>
+                                <td>
+					
+                                    <audio id="music" preload loop="false">
+  					<source src="{{ song.audio_file.url }}">
+                                    </audio>
+                                    <div id="audioplayer">
+					<button id="pButton" class="btn btn-warning btn-xs">
+                                            <span class="glyphicon glyphicon-play"></span>
+					</button>
+  					<div id="timeline">    
+                                            <div id="playhead"></div>
+  					</div>
+                                    </div>
+                                   <!--
+                                    <a target="_blank" href="{{ song.audio_file.url }}">
+                                        <button type="button" id="pButton" class="btn btn-warning btn-xs" >
+                                            <span class="glyphicon glyphicon-play"></span>
+                                        </button>
+                                    </a>
+                                    -->
+                                </td>
+                                <td>
+                                    <a href="{% url 'music:favorite' song.id %}" class="btn-favorite"><span class="glyphicon glyphicon-star {% if song.is_favorite %}active{% endif %}"></span></a>
+                                </td>
+                                <td>
+                                    <form action="{% url 'music:delete-song' album.id song.id %}" method="post" style="display: inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="song_id" value="{{ song.id }}" />
+                                        <button type="submit" class="btn btn-danger btn-xs">
+                                            <span class="glyphicon glyphicon-remove"></span>&nbsp; Delete
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
