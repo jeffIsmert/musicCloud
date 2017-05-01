@@ -5,3 +5,4 @@ this project was to create an online music library using Django and its built in
 
 ![musiccloud_index](https://cloud.githubusercontent.com/assets/27747079/25581328/68a06b26-2e44-11e7-8391-ca303d3680ad.png)
 
+![musiccloud_detail](https://cloud.githubusercontent.com/assets/27747079/25581377/b10e0918-2e44-11e7-93d8-356a102365b2.png)
